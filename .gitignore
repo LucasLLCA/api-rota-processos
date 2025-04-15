@@ -1,0 +1,9 @@
+# .gitignore
+go.sum
+.env
+*.exe
+*.out
+*.log
+.DS_Store
+.idea/
+.vscode/
