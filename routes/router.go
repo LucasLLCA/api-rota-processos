@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"api-rota-processos/handlers"
+	"github.com/LucasLLCA/api-rota-processos/handlers"
 
 	"github.com/gin-gonic/gin"
 )

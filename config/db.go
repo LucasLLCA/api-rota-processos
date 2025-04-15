@@ -5,15 +5,14 @@ import (
 	"fmt"
 	"os"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
 )
 
-// DB é exportado para ser usado fora do pacote
 var DB *sql.DB
 
 func Connect() error {
-	// Carrega as variáveis do .env
+	// Carrega variáveis do .env
 	err := godotenv.Load()
 	if err != nil {
 		return fmt.Errorf("Erro ao carregar .env: %v", err)
@@ -25,19 +24,19 @@ func Connect() error {
 	password := os.Getenv("DB_PASSWORD")
 	dbname := os.Getenv("DB_NAME")
 
-	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+	// DSN para MySQL: usuário:senha@tcp(host:porta)/banco
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
+		user, password, host, port, dbname)
 
-	// Atribui à variável global DB (sem := !)
-	DB, err = sql.Open("postgres", dsn)
+	DB, err = sql.Open("mysql", dsn)
 	if err != nil {
-		return fmt.Errorf("Erro ao abrir conexão com o banco: %v", err)
+		return fmt.Errorf("Erro ao abrir conexão com o banco MySQL: %v", err)
 	}
 
 	// Testa a conexão
 	err = DB.Ping()
 	if err != nil {
-		return fmt.Errorf("Erro ao conectar com o banco: %v", err)
+		return fmt.Errorf("Erro ao conectar com o banco MySQL: %v", err)
 	}
 
 	return nil

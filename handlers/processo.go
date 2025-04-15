@@ -1,9 +1,10 @@
 package handlers
 
 import (
-	"api-rota-processos/config"
 	"database/sql"
 	"net/http"
+
+	"github.com/LucasLLCA/api-rota-processos/config"
 
 	"github.com/gin-gonic/gin"
 )
