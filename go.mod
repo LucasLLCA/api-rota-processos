@@ -15,8 +15,6 @@ require (
 	github.com/lib/pq v1.10.9
 )
 
-require filippo.io/edwards25519 v1.1.0 // indirect
-
 require (
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
