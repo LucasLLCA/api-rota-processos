@@ -5,18 +5,9 @@ import (
 	"net/http"
 
 	"github.com/LucasLLCA/api-rota-processos/config"
-
+	"github.com/LucasLLCA/api-rota-processos/models"
 	"github.com/gin-gonic/gin"
 )
-
-type Processo struct {
-	ProtocolID int            `json:"protocol_id"`
-	Protocol   string         `json:"protocol"`
-	Created    sql.NullString `json:"created"`
-	TypeID     int            `json:"type_id"`
-	TypeName   string         `json:"type_name"`
-	SectorID   int            `json:"sector_id"`
-}
 
 func GetProcessoByNumero(c *gin.Context) {
 	numero := c.Param("numero")
@@ -27,7 +18,7 @@ func GetProcessoByNumero(c *gin.Context) {
 		WHERE protocol = $1
 	`
 
-	var processo Processo
+	var processo models.Processo
 	err := config.DB.QueryRow(query, numero).Scan(
 		&processo.ProtocolID,
 		&processo.Protocol,
@@ -41,7 +32,7 @@ func GetProcessoByNumero(c *gin.Context) {
 		if err == sql.ErrNoRows {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Processo não encontrado"})
 		} else {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar processo"})
 		}
 		return
 	}

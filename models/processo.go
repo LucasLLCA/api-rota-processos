@@ -1,10 +1,12 @@
 package models
 
+import "database/sql"
+
 type Processo struct {
-	ID       int    `json:"id"`
-	Numero   string `json:"numero"`
-	CriadoEm string `json:"criado_em"`
-	TipoID   int    `json:"tipo_id"`
-	TipoNome string `json:"tipo_nome"`
-	SetorID  int    `json:"setor_id"`
+	ProtocolID int            `json:"protocol_id"`
+	Protocol   string         `json:"protocol"`
+	Created    sql.NullString `json:"created"`
+	TypeID     int            `json:"type_id"`
+	TypeName   string         `json:"type_name"`
+	SectorID   int            `json:"sector_id"`
 }

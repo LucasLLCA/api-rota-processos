@@ -3,42 +3,41 @@ package config
 import (
 	"database/sql"
 	"fmt"
-	"os"
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
-// DB é exportado para ser usado fora do pacote
 var DB *sql.DB
 
 func Connect() error {
-	// Carrega as variáveis do .env
-	err := godotenv.Load()
-	if err != nil {
-		return fmt.Errorf("Erro ao carregar .env: %v", err)
+	// Carrega .env
+	if err := godotenv.Load(); err != nil {
+		return fmt.Errorf("erro ao carregar .env: %v", err)
 	}
 
-	host := os.Getenv("DB_HOST")
-	port := os.Getenv("DB_PORT")
-	user := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORLD")
-	dbname := os.Getenv("DB_NAME")
+	// Configura a string de conexão
+	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		"10.0.122.89",
+		"5432",
+		"painel",
+		"Jw{d1*r!.q}FwZV",
+		"painel_sead_hml",
+	)
+	fmt.Println("DSN:", connStr)
 
-	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
-
-	// Atribui à variável global DB (sem := !)
-	DB, err = sql.Open("postgres", dsn)
+	// Conecta ao banco
+	var err error
+	DB, err = sql.Open("postgres", connStr)
 	if err != nil {
-		return fmt.Errorf("Erro ao abrir conexão com o banco: %v", err)
+		return fmt.Errorf("erro ao abrir conexão: %v", err)
 	}
 
 	// Testa a conexão
-	err = DB.Ping()
-	if err != nil {
-		return fmt.Errorf("Erro ao conectar com o banco: %v", err)
+	if err = DB.Ping(); err != nil {
+		return fmt.Errorf("erro ao pingar o banco: %v", err)
 	}
 
+	fmt.Println("Conectado ao PostgreSQL!")
 	return nil
 }
