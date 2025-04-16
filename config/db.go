@@ -18,11 +18,11 @@ func Connect() error {
 
 	// Configura a string de conexão
 	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		"10.0.122.89",
-		"5432",
-		"painel",
-		"Jw{d1*r!.q}FwZV",
-		"painel_sead_hml",
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_NAME")
 	)
 	fmt.Println("DSN:", connStr)
 
